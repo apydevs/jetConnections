@@ -16,6 +16,12 @@ class GenerateRedirectForProvider implements GeneratesProviderRedirect
      */
     public function generate(string $provider)
     {
-        return Socialite::driver($provider)->redirect();
+        if($provider === 'facebook'){
+            return Socialite::driver($provider)
+                ->scopes(config("socialscopes.$provider"))
+                ->redirect();
+        }else{
+            return Socialite::driver($provider)->redirect();
+        }
     }
 }
